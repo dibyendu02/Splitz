@@ -48,7 +48,12 @@ const Board = () => {
   );
 };
 
-const TransactionCard = ({transCardNo, setTransCardNo }) => {
+interface TransactionCardProps {
+    transCardNo: number;
+    setTransCardNo: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const TransactionCard = ({transCardNo, setTransCardNo } : TransactionCardProps) => {
 
   return (
     <div className="flex gap-2">
