@@ -2,43 +2,68 @@ import { useEffect, useRef, useState } from "react";
 import TransactionCard from "./TransactionCard";
 
 interface Transaction {
-    userName: string;
-    transDesc: string;
-    transAmount: number;
-  }
+  userName: string;
+  transDesc: string;
+  transAmount: number;
+}
 const UserCards = () => {
+  const deleteButtonRef = useRef<{ [key: number]: HTMLButtonElement | null }>(
+    {}
+  );
 
-    const deleteButtonRef = useRef([]);
+  const [transactionNo, setTransactionNo] = useState(1);
 
-    const [transactionNo, setTransactionNo] = useState(1);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-    const [transactions, setTransactions] = useState<Transaction[]>([]);
+  console.log(transactions);
 
-    console.log(transactions)
+  const initialTransactions = Array.from(
+    { length: transactionNo },
+    (_, index) => ({
+      userName: "",
+      transDesc: "",
+      transAmount: 0,
+    })
+  );
+  
 
+  useEffect(() => {
+    // Initialize transactions when the component mounts
+
+    console.log("transaction No use effect run")
     
+    
+    const defaultTransaction = {
+      userName: "",
+      transDesc: "",
+      transAmount: 0,
+    };
+    setTransactions((prevElements) => {
+      const updatedElements = [...prevElements, defaultTransaction];
+      return updatedElements;
+    });
+  }, [transactionNo]);
 
-    useEffect(() => {
-        // Initialize transactions when the component mounts
-        const initialTransactions = Array.from({ length: transactionNo }, (_, index) => ({
-            userName: "",
-            transDesc: "",
-            transAmount: 0,
-        }));
-        setTransactions(initialTransactions);
-    }, [transactionNo]); // Empty dependency array ensures this effect runs only once when the component mounts
 
-    const renderTransactions = transactions.map((transaction, index) => (
-        <TransactionCard
-        key={index}
-        transactionNo={transactionNo}
-        setTransactionNo={setTransactionNo}
-        transaction={transactions}
-        setTransaction={setTransactions}
-        deleteButtonRef={deleteButtonRef}
-        index={index}
-        {...transaction} />
-    ));
+  useEffect(() => {
+    // Initialize transactions when the component mounts
+
+    console.log("normal use effect run")
+    setTransactions(initialTransactions);
+  }, []);
+
+  const renderTransactions = transactions.map((transaction, index) => (
+    <TransactionCard
+      key={index}
+      transactionNo={transactionNo}
+      setTransactionNo={setTransactionNo}
+      transaction={transactions}
+      setTransaction={setTransactions}
+      deleteButtonRef={deleteButtonRef}
+      index={index}
+      {...transaction}
+    />
+  ));
 
   return (
     <div className="border-solid border border-white h-full w-full md:w-96 rounded-md p-5 flex flex-col gap-2 ">
@@ -67,7 +92,10 @@ const UserCards = () => {
       {renderTransactions}
 
       <button
-        onClick={() => setTransactionNo(transactions.length + 1)}
+        onClick={() => {
+          console.log("add button clicked");
+          setTransactionNo(transactions.length + 1);
+        }}
         className="w-full bg-white/20 p-2 flex items-center justify-center rounded-md"
       >
         <svg
@@ -86,7 +114,7 @@ const UserCards = () => {
         </svg>
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default UserCards
+export default UserCards;

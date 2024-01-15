@@ -9,8 +9,10 @@ interface TransactionProps {
   transactionNo: number;
   setTransactionNo: React.Dispatch<React.SetStateAction<number>>;
   transaction: Transaction[];
-  setTransaction: React.Dispatch<React.SetStateAction<Transaction[]>>
-  deleteButtonRef: React.MutableRefObject<never[]>;
+  setTransaction: React.Dispatch<React.SetStateAction<Transaction[]>>;
+  deleteButtonRef: React.MutableRefObject<{
+    [key: number]: HTMLButtonElement | null;
+  }>;
   index: number;
 }
 const Transaction = ({
@@ -22,17 +24,34 @@ const Transaction = ({
   index,
 }: TransactionProps) => {
   const handleDeleteButton = (index: number) => {
+    console.log("input index no is "+index);
     setTransaction((prevElements) => {
       const updatedElements = [...prevElements];
       updatedElements.splice(index, 1);
       return updatedElements;
     });
-    console.log(`removed ${index}th row`)
+  
+    console.log(`removed ${index}th row`);
   };
 
-  useEffect(()=>{
+  const handleTextInput = (i: number, value: string) => {
+    const updateFieldInState = transaction.map((transaction, index) => {
+      if (i === index) {
+        const newfieldstate = {
+          ...transaction,
+          transDesc: value,
+        };
+        return newfieldstate;
+      } else {
+        return transaction;
+      }
+    });
+    setTransaction(updateFieldInState);
+  }
+
+  useEffect(() => {
     console.log("index no is " + [index]);
-  },[])
+  }, []);
   return (
     <div className="flex gap-2">
       <input
@@ -41,13 +60,18 @@ const Transaction = ({
         // onBlur={handleInputBlur}
         className="p-1 w-1/2"
       />
-      <input placeholder="What?" className="p-1 w-1/2" />
+      <input placeholder="What?" className="p-1 w-1/2"
+      onChange={(e) => handleTextInput(index, e.target.value)}
+      />
       <button
-        // onClick={() => {
-        //     transactionNo > 0 && setTransactionNo((prev) => prev - 1);
-        // }}
+        
         ref={(el) => (deleteButtonRef.current[index] = el)}
-        onClick={() => handleDeleteButton(index)}
+        // onClick={() => handleDeleteButton(index)}
+        onClick={() => {
+          // deleteButtonRef[index].style.backgroundColor = "red";
+          handleDeleteButton(index);
+          console.log("clicked row "+index);
+        }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
