@@ -25,26 +25,24 @@ const UserCards = () => {
       transAmount: 0,
     })
   );
+  const defaultTransaction = {
+    userName: "",
+    transDesc: "",
+    transAmount: 0,
+  };
+
+
+  const handleNameInput = (value: string) => {
+    const updateFieldInState = transactions.map((transaction, index) => {
+      const newfieldstate = {
+        ...transaction,
+        userName: value,
+      };
+      return newfieldstate;
+    })
+    setTransactions(updateFieldInState);
+  };
   
-
-  useEffect(() => {
-    // Initialize transactions when the component mounts
-
-    console.log("transaction No use effect run")
-    
-    
-    const defaultTransaction = {
-      userName: "",
-      transDesc: "",
-      transAmount: 0,
-    };
-    setTransactions((prevElements) => {
-      const updatedElements = [...prevElements, defaultTransaction];
-      return updatedElements;
-    });
-  }, [transactionNo]);
-
-
   useEffect(() => {
     // Initialize transactions when the component mounts
 
@@ -72,6 +70,7 @@ const UserCards = () => {
           //onChange={}
           placeholder={`Name User 1`}
           className="p-1 w-[60%] "
+          onChange={(e) => handleNameInput( e.target.value)}
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +93,11 @@ const UserCards = () => {
       <button
         onClick={() => {
           console.log("add button clicked");
-          setTransactionNo(transactions.length + 1);
+          // setTransactionNo(transactions.length + 1);
+          setTransactions((prevElements) => {
+            const updatedElements = [...prevElements, defaultTransaction];
+            return updatedElements;
+          });
         }}
         className="w-full bg-white/20 p-2 flex items-center justify-center rounded-md"
       >
