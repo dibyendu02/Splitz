@@ -1,14 +1,22 @@
+import Calculations from './components/Calculations';
 import BillPage from './pages/BillPage'
 import Home from './pages/Home'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
 function App() {
 
   return (
-    <div className=" bg-black">
-      {/* <BillPage/> */}
-      <Home/>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        
+          <Route index element={<Home />} />
+          <Route path="/calculation/:id" element={<Calculations />} />
+          {/* <Route path="contact" element={<Contact />} />
+          <Route path="*" element={<NoPage />} /> */}
+
+      </Routes>
+    </BrowserRouter>
   )
 }
 

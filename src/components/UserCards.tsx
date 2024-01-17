@@ -1,12 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import TransactionCard from "./TransactionCard";
+import { Transaction, UserCardProps } from "../types";
 
-interface Transaction {
-  userName: string;
-  transDesc: string;
-  transAmount: number;
-}
-const UserCards = () => {
+const UserCards = ({calculation, setCalculation, UserIndex}:UserCardProps) => {
   const deleteButtonRef = useRef<{ [key: number]: HTMLButtonElement | null }>(
     {}
   );
@@ -32,8 +28,17 @@ const UserCards = () => {
   };
 
 
-  const handleNameInput = (value: string) => {
+  const handleNameInput = (i:number, value: string) => {
     const updateFieldInState = transactions.map((transaction, index) => {
+      // if (i === index) {
+      //   const newfieldstate = {
+      //     ...calculation,
+      //     trans: isValidNumber ? parsedValue : 0,
+      //   };
+      //   return newfieldstate;
+      // } else {
+      //   return transaction;
+      // }
       const newfieldstate = {
         ...transaction,
         userName: value,
@@ -42,13 +47,30 @@ const UserCards = () => {
     })
     setTransactions(updateFieldInState);
   };
+
+  const addToCalculation = () => {
+    const newTransactions = [...calculation.transactions, ...transactions];
+    const newCalculation = {
+      ...calculation,
+      transactions: newTransactions,
+    }
+    setCalculation(newCalculation);
+  }
   
+
   useEffect(() => {
     // Initialize transactions when the component mounts
 
     console.log("normal use effect run")
     setTransactions(initialTransactions);
+
+    
   }, []);
+
+  useEffect(() => {
+    addToCalculation();
+    console.log("transactions use effect")
+  }, [transactions])
 
   const renderTransactions = transactions.map((transaction, index) => (
     <TransactionCard
@@ -68,9 +90,9 @@ const UserCards = () => {
       <div className="w-full flex gap-2 items-center">
         <input
           //onChange={}
-          placeholder={`Name User 1`}
+          placeholder={`Name User ${UserIndex}`}
           className="p-1 w-[60%] "
-          onChange={(e) => handleNameInput( e.target.value)}
+          onChange={(e) => handleNameInput( UserIndex, e.target.value)}
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"
