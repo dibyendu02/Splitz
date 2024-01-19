@@ -1,100 +1,105 @@
-import { useEffect } from "react";
+import { TransactionCardProps } from "../types";
 
-interface Transaction {
-  userName: string;
-  transDesc: string;
-  transAmount: number;
-}
-interface TransactionProps {
-  transactionNo: number;
-  setTransactionNo: React.Dispatch<React.SetStateAction<number>>;
-  transaction: Transaction[];
-  setTransaction: React.Dispatch<React.SetStateAction<Transaction[]>>;
-  deleteButtonRef: React.MutableRefObject<{
-    [key: number]: HTMLButtonElement | null;
-  }>;
-  index: number;
-}
-const Transaction = ({
+
+
+const TransactionCard = ({
   transactionNo,
   setTransactionNo,
-  transaction,
-  setTransaction,
-  deleteButtonRef,
+  transactionRef,
+  calculation,
+  setCalculation,
   index,
-}: TransactionProps) => {
-  const handleDeleteButton = (index: number) => {
-    console.log("input index no is " + index);
-    setTransaction((prevElements) => {
-      const updatedElements = [...prevElements];
-      updatedElements.splice(index, 1);
-      return updatedElements;
+  UserIndex,
+  setCurrTransId,
+}: TransactionCardProps) => {
+
+
+
+  const handleDeleteButton = (id: string) => {
+    console.log("input id is " + id);
+
+    
+    setCalculation((prevElements) => {
+      const updatedTransactions = prevElements.transactions.filter((transaction) => transaction.id !== id);
+      const newCalculation = {
+        ...calculation,
+        transactions: [...updatedTransactions],
+      };
+      return newCalculation;
     });
 
-    console.log(`removed ${index}th row`);
+    console.log(`removed transaction with id ${id}`);
   };
 
-  const handleTextInput = (i: number, value: string) => {
-    const updateFieldInState = transaction.map((transaction, index) => {
-      if (i === index) {
-        const newfieldstate = {
+  const handleTextInput = (id: string, value: string) => {
+    const updateFieldInState = calculation.transactions.map((transaction) => {
+      if (transaction.id === id) {
+        const newFieldState = {
           ...transaction,
           transDesc: value,
         };
-        return newfieldstate;
+        return newFieldState;
       } else {
         return transaction;
       }
     });
-    setTransaction(updateFieldInState);
+
+    const newCalculation = {
+      ...calculation,
+      transactions: [...updateFieldInState],
+    };
+
+    setCalculation(newCalculation);
+
   };
 
-  const handleNumInput = (i: number, value: string) => {
-    // Check if the input is a valid number
+  const handleNumInput = (id: string, value: string) => {
     const parsedValue = parseFloat(value);
     const isValidNumber = !isNaN(parsedValue);
 
-    const updateFieldInState = transaction.map((transaction, index) => {
-      if (i === index) {
-        const newfieldstate = {
+    const updateFieldInState = calculation.transactions.map((transaction) => {
+      if (transaction.id === id) {
+        const newFieldState = {
           ...transaction,
           transAmount: isValidNumber ? parsedValue : 0,
         };
-        return newfieldstate;
+        return newFieldState;
       } else {
         return transaction;
       }
     });
+
+    const newCalculation = {
+      ...calculation,
+      transactions: [...updateFieldInState],
+    };
+
+    setCalculation(newCalculation);
     
-    setTransaction(updateFieldInState);
   };
-  useEffect(() => {
-    console.log("index no is " + [index]);
-  }, []);
+
+  const userTransactions = calculation.transactions.filter((transaction) => transaction.UserIndex === UserIndex);
+
 
 
   return (
     <div className="flex gap-2">
       <input
         placeholder="How Much?"
-        onChange={(e) => handleNumInput(index, e.target.value)}
-        // onBlur={handleInputBlur}
+        onChange={(e) => handleNumInput(userTransactions[index].id, e.target.value)}
         className="p-1 w-1/2"
-        value={transaction[index].transAmount}
+        value={userTransactions[index].transAmount}
       />
       <input
         placeholder="What?"
         className="p-1 w-1/2"
-        onChange={(e) => handleTextInput(index, e.target.value)}
-        value={transaction[index].transDesc || ""}
+        onChange={(e) => handleTextInput(userTransactions[index].id, e.target.value)}
+        value={userTransactions[index].transDesc || ""}
       />
-      <button
-        ref={(el) => (deleteButtonRef.current[index] = el)}
-        // onClick={() => handleDeleteButton(index)}
+      <button        
         onClick={() => {
-          // deleteButtonRef[index].style.backgroundColor = "red";
-          handleDeleteButton(index);
-          console.log("clicked row " + index);
+          handleDeleteButton(userTransactions[index].id);
+          console.log("clicked row " + userTransactions[index].id);
         }}
       >
         <svg
@@ -116,4 +121,4 @@ const Transaction = ({
   );
 };
 
-export default Transaction;
+export default TransactionCard;

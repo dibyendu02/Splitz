@@ -1,89 +1,83 @@
 import { useEffect, useRef, useState } from "react";
 import TransactionCard from "./TransactionCard";
-import { Transaction, UserCardProps } from "../types";
+import { UserCardProps } from "../types";
+import { v4 as uuidv4 } from "uuid"; 
 
 const UserCards = ({calculation, setCalculation, UserIndex}:UserCardProps) => {
-  const deleteButtonRef = useRef<{ [key: number]: HTMLButtonElement | null }>(
+
+
+  const transactionRef = useRef<{ [id: string]: HTMLButtonElement | null }>(
     {}
   );
 
   const [transactionNo, setTransactionNo] = useState(1);
 
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  
 
-  console.log(transactions);
+  const [currTransId, setCurrTransId] = useState<string>("");
 
-  const initialTransactions = Array.from(
-    { length: transactionNo },
-    (_, index) => ({
-      userName: "",
-      transDesc: "",
-      transAmount: 0,
-    })
-  );
+
   const defaultTransaction = {
+    UserIndex: UserIndex,
+    id: uuidv4(),
     userName: "",
     transDesc: "",
     transAmount: 0,
   };
 
 
-  const handleNameInput = (i:number, value: string) => {
-    const updateFieldInState = transactions.map((transaction, index) => {
-      // if (i === index) {
-      //   const newfieldstate = {
-      //     ...calculation,
-      //     trans: isValidNumber ? parsedValue : 0,
-      //   };
-      //   return newfieldstate;
-      // } else {
-      //   return transaction;
-      // }
-      const newfieldstate = {
-        ...transaction,
-        userName: value,
-      };
-      return newfieldstate;
-    })
-    setTransactions(updateFieldInState);
-  };
+  const handleNameInput = (userIndex:number, value: string) => {
 
-  const addToCalculation = () => {
-    const newTransactions = [...calculation.transactions, ...transactions];
+    const updatedCalculationTransactions = calculation.transactions.map((calcTransaction) => {
+      
+      const updatedTransaction = {...calcTransaction} ;
+      
+      if (updatedTransaction.UserIndex === (userIndex) ) {
+        updatedTransaction.userName = value;
+      }
+  
+      return updatedTransaction;
+    });
+
+
     const newCalculation = {
       ...calculation,
-      transactions: newTransactions,
-    }
-    setCalculation(newCalculation);
-  }
+      transactions: updatedCalculationTransactions,
+    };
   
+    setCalculation(newCalculation);
+  };
 
+  
+  
   useEffect(() => {
-    // Initialize transactions when the component mounts
+    const newTransactions = [...calculation.transactions, defaultTransaction];
+      const newCalculation = {
+        ...calculation,
+        transactions: newTransactions,
+      }
+    setCalculation(newCalculation);
 
-    console.log("normal use effect run")
-    setTransactions(initialTransactions);
-
-    
   }, []);
 
-  useEffect(() => {
-    addToCalculation();
-    console.log("transactions use effect")
-  }, [transactions])
 
-  const renderTransactions = transactions.map((transaction, index) => (
+  const userTransactions = calculation.transactions.filter((transaction) => transaction.UserIndex === UserIndex);
+
+  const renderTransactions = userTransactions.map((transaction, index) => (
     <TransactionCard
-      key={index}
+      key={transaction.id}
       transactionNo={transactionNo}
       setTransactionNo={setTransactionNo}
-      transaction={transactions}
-      setTransaction={setTransactions}
-      deleteButtonRef={deleteButtonRef}
+      transactionRef={transactionRef}
+      calculation={calculation}
+      setCalculation={setCalculation}
       index={index}
+      UserIndex={UserIndex}
+      setCurrTransId={setCurrTransId}
       {...transaction}
     />
   ));
+
 
   return (
     <div className="border-solid border border-white h-full w-full md:w-96 rounded-md p-5 flex flex-col gap-2 ">
@@ -114,12 +108,12 @@ const UserCards = ({calculation, setCalculation, UserIndex}:UserCardProps) => {
 
       <button
         onClick={() => {
-          console.log("add button clicked");
-          // setTransactionNo(transactions.length + 1);
-          setTransactions((prevElements) => {
-            const updatedElements = [...prevElements, defaultTransaction];
-            return updatedElements;
-          });
+          const newTransactions = [...calculation.transactions, defaultTransaction];
+          const newCalculation = {
+            ...calculation,
+            transactions: newTransactions,
+          }
+          setCalculation(newCalculation);
         }}
         className="w-full bg-white/20 p-2 flex items-center justify-center rounded-md"
       >

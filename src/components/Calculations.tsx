@@ -11,7 +11,8 @@ const Calculations = () => {
 
   const [calculation, setCalculation] = useState<CalculationProps>({name: "", size: 2, transactions: [] });
 
-  console.log(calculation)
+  console.log(calculation.transactions)
+
 
   useEffect(() => {
     const getPostDetail = async () => {
@@ -19,6 +20,7 @@ const Calculations = () => {
       setCalculation(docSnap.data()?.calculation);
     };
     getPostDetail();
+    
   }, []);
 
   const numberOfTimes = calculation.size;

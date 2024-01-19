@@ -1,7 +1,9 @@
 export interface Transaction {
-    userName: string;
-    transDesc: string;
-    transAmount: number;
+    UserIndex: number,
+    id: string,
+    userName: string,
+    transDesc: string,
+    transAmount: number,
   }
 export interface TransactionProps {
     transactionNo: number;
@@ -12,6 +14,20 @@ export interface TransactionProps {
       [key: number]: HTMLButtonElement | null;
     }>;
     index: number;
+    
+  }
+
+  export interface TransactionCardProps {
+    transactionNo: number;
+    setTransactionNo: React.Dispatch<React.SetStateAction<number>>;
+    transactionRef: React.MutableRefObject<{
+      [key: number]: HTMLButtonElement | null;
+    }>;
+    calculation: CalculationProps,
+    setCalculation: React.Dispatch<React.SetStateAction<CalculationProps>>,
+    index: number;
+    UserIndex: number,
+    setCurrTransId: React.Dispatch<React.SetStateAction<string>>,
   }
 
   export interface CalculationProps {

@@ -1,5 +1,4 @@
 import Calculations from './components/Calculations';
-import BillPage from './pages/BillPage'
 import Home from './pages/Home'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
