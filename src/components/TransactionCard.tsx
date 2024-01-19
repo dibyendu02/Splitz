@@ -3,14 +3,10 @@ import { TransactionCardProps } from "../types";
 
 
 const TransactionCard = ({
-  transactionNo,
-  setTransactionNo,
-  transactionRef,
   calculation,
   setCalculation,
   index,
   UserIndex,
-  setCurrTransId,
 }: TransactionCardProps) => {
 
 

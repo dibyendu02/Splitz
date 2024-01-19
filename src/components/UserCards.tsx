@@ -1,20 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import TransactionCard from "./TransactionCard";
 import { UserCardProps } from "../types";
 import { v4 as uuidv4 } from "uuid"; 
 
 const UserCards = ({calculation, setCalculation, UserIndex}:UserCardProps) => {
-
-
-  const transactionRef = useRef<{ [id: string]: HTMLButtonElement | null }>(
-    {}
-  );
-
-  const [transactionNo, setTransactionNo] = useState(1);
-
-  
-
-  const [currTransId, setCurrTransId] = useState<string>("");
 
 
   const defaultTransaction = {
@@ -66,14 +55,9 @@ const UserCards = ({calculation, setCalculation, UserIndex}:UserCardProps) => {
   const renderTransactions = userTransactions.map((transaction, index) => (
     <TransactionCard
       key={transaction.id}
-      transactionNo={transactionNo}
-      setTransactionNo={setTransactionNo}
-      transactionRef={transactionRef}
       calculation={calculation}
       setCalculation={setCalculation}
       index={index}
-      UserIndex={UserIndex}
-      setCurrTransId={setCurrTransId}
       {...transaction}
     />
   ));

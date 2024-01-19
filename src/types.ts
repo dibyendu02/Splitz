@@ -18,16 +18,10 @@ export interface TransactionProps {
   }
 
   export interface TransactionCardProps {
-    transactionNo: number;
-    setTransactionNo: React.Dispatch<React.SetStateAction<number>>;
-    transactionRef: React.MutableRefObject<{
-      [key: number]: HTMLButtonElement | null;
-    }>;
     calculation: CalculationProps,
     setCalculation: React.Dispatch<React.SetStateAction<CalculationProps>>,
     index: number;
     UserIndex: number,
-    setCurrTransId: React.Dispatch<React.SetStateAction<string>>,
   }
 
   export interface CalculationProps {
