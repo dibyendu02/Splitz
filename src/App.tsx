@@ -8,12 +8,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        
           <Route index element={<Home />} />
           <Route path="/calculation/:id" element={<Calculations />} />
-          {/* <Route path="contact" element={<Contact />} />
-          <Route path="*" element={<NoPage />} /> */}
-
       </Routes>
     </BrowserRouter>
   )
