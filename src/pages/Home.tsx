@@ -5,10 +5,10 @@ import { addDoc, collection } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 interface counterProps {
-  calculation: CalculationProps,
   setCalculation: React.Dispatch<React.SetStateAction<CalculationProps>>,
 }
-const Counter = ({calculation, setCalculation}:counterProps) => {
+const Counter = ({ setCalculation}:counterProps) => { 
+  
   const [count, setCount] = useState(2);
 
   const handleCounterInput = () => {
@@ -87,7 +87,7 @@ const Home = () => {
       <div className=" bg-white/20 w-80 p-5 rounded-md flex flex-col items-center text-center gap-5  ">
         <h1 className="text-xl">How many people are in your group?</h1>
 
-        <Counter calculation={calculation} setCalculation={setCalculation} />
+        <Counter setCalculation={setCalculation} />
 
         <h1 className="text-xl">Give it a name</h1>
         <input placeholder="e.g. Trip" className="p-2 w-full" onChange={(e) => {setCalculation((prev) => ({...prev, name: e.target.value}) )}} />
