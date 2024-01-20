@@ -47,11 +47,11 @@ const UserCards = ({calculation, setCalculation, UserIndex}:UserCardProps) => {
   
   
   useEffect(() => {
-    const newTransactions = [...calculation.transactions, defaultTransaction];
-    const newCalculation = {
-      ...calculation,
-      transactions: newTransactions,
-    }
+    // const newTransactions = [...calculation.transactions, defaultTransaction];
+    // const newCalculation = {
+    //   ...calculation,
+    //   transactions: newTransactions,
+    // }
     //setCalculation(newCalculation);
 
   }, []);

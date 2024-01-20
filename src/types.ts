@@ -36,3 +36,11 @@ export interface TransactionProps {
     setCalculation: React.Dispatch<React.SetStateAction<CalculationProps>>,
     UserIndex: number
   }
+
+export interface UserBalance {
+  userIndex: number;
+  userName: string;
+  totalAmount: number;
+  averageAmount: number;
+  balance: number;
+}
