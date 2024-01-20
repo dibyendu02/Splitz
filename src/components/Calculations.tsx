@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { db } from "../firebase.config";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { CalculationProps } from "../types";
 import UserCards from "./UserCards";
@@ -13,15 +13,12 @@ const Calculations = () => {
 
   console.log(calculation.transactions)
 
+  const updateCalculations = async () => {
+    await updateDoc(calculationRef, {
+      calculation
+    });
+  }
 
-  useEffect(() => {
-    const getPostDetail = async () => {
-      const docSnap = await getDoc(calculationRef);
-      setCalculation(docSnap.data()?.calculation);
-    };
-    getPostDetail();
-    
-  }, []);
 
   const numberOfTimes = calculation.size;
 
@@ -35,9 +32,28 @@ const Calculations = () => {
     />
   ));
 
+  useEffect(() => {
+    const getCalculationDetail = async () => {
+      const docSnap = await getDoc(calculationRef);
+
+      console.log(docSnap.data())
+      setCalculation(docSnap.data()?.calculation);
+    };
+    getCalculationDetail();
+    
+  }, []);
+
 
   return (
-    <div className="flex flex-col gap-10">{renderComponents}</div>
+    <div className="flex flex-wrap justify-center gap-10 md:gap-40 p-5 md:p-20">
+      <div className="flex flex-col gap-10">
+        {renderComponents}
+      </div>
+      
+
+      <button className="bg-white/20 h-10 w-20 rounded-md" onClick={updateCalculations}>Save</button>
+      
+    </div>
   )
 }
 

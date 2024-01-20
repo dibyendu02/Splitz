@@ -7,7 +7,10 @@ const TransactionCard = ({
   setCalculation,
   index,
   UserIndex,
+  currUserName,
 }: TransactionCardProps) => {
+
+  //console.log(currUserName)
 
 
 
@@ -19,6 +22,7 @@ const TransactionCard = ({
       const updatedTransactions = prevElements.transactions.filter((transaction) => transaction.id !== id);
       const newCalculation = {
         ...calculation,
+        userName: currUserName,
         transactions: [...updatedTransactions],
       };
       return newCalculation;
@@ -32,6 +36,7 @@ const TransactionCard = ({
       if (transaction.id === id) {
         const newFieldState = {
           ...transaction,
+          userName: currUserName,
           transDesc: value,
         };
         return newFieldState;

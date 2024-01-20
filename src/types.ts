@@ -22,6 +22,7 @@ export interface TransactionProps {
     setCalculation: React.Dispatch<React.SetStateAction<CalculationProps>>,
     index: number;
     UserIndex: number,
+    currUserName: string,
   }
 
   export interface CalculationProps {
