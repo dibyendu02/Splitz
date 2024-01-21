@@ -16,7 +16,7 @@ const Calculations = () => {
     transactions: [],
   });
 
-  console.log(calculation.transactions);
+  //console.log(calculation.transactions);
 
   const updateCalculations = async () => {
     await updateDoc(calculationRef, {
@@ -40,7 +40,7 @@ const Calculations = () => {
     const getCalculationDetail = async () => {
       const docSnap = await getDoc(calculationRef);
 
-      console.log(docSnap.data());
+      //console.log(docSnap.data());
       setCalculation(docSnap.data()?.calculation);
     };
     getCalculationDetail();
@@ -74,7 +74,7 @@ const Calculations = () => {
     [] as UserBalance[]
   );
 
-  console.log(userBalances);
+  //console.log(userBalances);
 
   // Step 2: Calculate average transaction amount for each user
   userBalances.forEach((balance) => {
@@ -83,40 +83,7 @@ const Calculations = () => {
 
   const TransactionMessages: string[] = [];
 
-  // Step 3: Determine who owes whom
-  userBalances.forEach((payer) => {
-    userBalances.forEach((payee) => {
-      if (payer !== payee) {
-        const amountToPay = payer.averageAmount - payee.averageAmount;
-
-        if (amountToPay > 0) {
-          // TransactionMessages.push(
-          //   `${payer.userName} owes ${payee.userName}: ${amountToPay.toFixed(
-          //     2
-          //   )}`
-          // );
-          console.log(
-            `${payer.userName} owes ${payee.userName}: ${amountToPay.toFixed(
-              2
-            )}`
-          );
-        } else if (amountToPay < 0) {
-          // TransactionMessages.push(
-          //   `${payee.userName} owes ${payer.userName}: ${Math.abs(
-          //     amountToPay
-          //   ).toFixed(2)}`
-          // );
-          console.log(
-            `${payee.userName} owes ${payer.userName}: ${Math.abs(
-              amountToPay
-            ).toFixed(2)}`
-          );
-        }
-      }
-    });
-  });
-
-  // Step 4: Debt settlement algorithm
+  // Step 3: Debt settlement algorithm
   const debts: { from: UserBalance; to: UserBalance; amount: number }[] = [];
   userBalances.forEach((payer) => {
     userBalances.forEach((payee) => {
@@ -161,7 +128,7 @@ const Calculations = () => {
     try {
       if (urlRef.current) {
         await navigator.clipboard.writeText(urlRef.current.value);
-        console.log("URL copied to clipboard");
+        // console.log("URL copied to clipboard");
       }
     } catch (error) {
       console.error("Failed to copy URL to clipboard", error);
@@ -170,13 +137,16 @@ const Calculations = () => {
 
   return (
     <div className=" flex flex-col gap-10 items-center p-5">
-      <h1>{calculation.name}</h1>
-
+      <div className="flex flex-col gap-2">
+        <h1 className="text-xl font-semibold">SplitZ</h1>
+        <h1>{calculation.name}</h1>
+      </div>
+      
       <div className="flex flex-wrap justify-center gap-10 md:gap-40">
         <div className="flex flex-col gap-10">{renderComponents}</div>
         <div className="flex flex-col items-center gap-5">
           <button
-            className="bg-white/20 h-10 w-20 rounded-md transform active:scale-y-90 transition-transform"
+            className="bg-white/20 h-10 w-20 rounded-md hover:bg-white/30 transform active:scale-y-90 transition-transform"
             onClick={updateCalculations}
           >
             Save
@@ -195,7 +165,7 @@ const Calculations = () => {
               defaultValue={window.location.href}
               style={{ position: "absolute", left: "-9999px" }}
             />
-            <button className="bg-white/20 h-10 p-2 rounded-md transform active:scale-y-90 transition-transform" onClick={handleCopyToClipboard}>Copy to Clipboard</button>
+            <button className="bg-white/20 h-10 p-2 rounded-md hover:bg-white/30 transform active:scale-y-90 transition-transform" onClick={handleCopyToClipboard}>Copy to Clipboard</button>
           </div>
 
         </div>
