@@ -68,11 +68,12 @@ Splitz is a web application that enables users to create a bill where it shows w
 
 ## About The Project
 
-### Features
+### Key Features
 
-- calculates splited bill and who needs to pay whom
-- can be saved for future aspects
-- can be shared outside just by "copy to clipboard"
+- **User-Friendly Interface**: Built with React JS for a seamless experience.
+- **Stunning Design**: Tailwind CSS adds a touch of elegance to your bill-splitting journey.
+- **Effortless Saving**: Save and organize your splits effortlessly with Firebase.
+- **Shareable Links**: Easily share your splits with friends using unique links.
 
 ### Technologies Used
 
