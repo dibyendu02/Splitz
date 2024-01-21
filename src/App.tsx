@@ -1,4 +1,4 @@
-import Calculations from './components/Calculations';
+import Calculations from './pages/Calculations';
 import Home from './pages/Home'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 

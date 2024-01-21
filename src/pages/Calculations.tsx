@@ -3,7 +3,7 @@ import { db } from "../firebase.config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
 import { CalculationProps, UserBalance } from "../types";
-import UserCards from "./UserCards";
+import UserCards from "../components/UserCards";
 
 const Calculations = () => {
   const urlRef = useRef<HTMLInputElement>(null);
