@@ -3,6 +3,7 @@ import { CalculationProps } from "../types";
 import { db } from "../firebase.config";
 import { addDoc, collection } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import bill from "/bill.png"
 
 interface counterProps {
   setCalculation: React.Dispatch<React.SetStateAction<CalculationProps>>,
@@ -80,10 +81,20 @@ const Home = () => {
         console.error('Error adding data: ', error);
       }
     };
-    console.log(calculation);
+    //console.log(calculation);
     
   return (
-    <div className="min-h-screen flex justify-center items-center ">
+    <div className="min-h-screen flex flex-col pt-5 gap-20 items-center text-center ">
+      <div className="flex flex-col gap-2 items-center">
+        <div className="flex gap-5">
+          <img src={bill} width={40} />
+          <h1 className="text-2xl font-semibold">SplitZ</h1>
+        </div>
+        <p>no jhanjhat,  hisab fatafat</p>        
+      </div>
+
+      <p className="text-xl">Split your bills with your <br/>  group easily</p>
+
       <div className=" bg-white/20 w-80 p-5 rounded-md flex flex-col items-center text-center gap-5  ">
         <h1 className="text-xl">How many people are in your group?</h1>
 

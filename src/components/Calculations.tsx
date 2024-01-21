@@ -137,7 +137,7 @@ const Calculations = () => {
 
   return (
     <div className=" flex flex-col gap-10 items-center p-5">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col items-center gap-2">
         <h1 className="text-xl font-semibold">SplitZ</h1>
         <h1>{calculation.name}</h1>
       </div>

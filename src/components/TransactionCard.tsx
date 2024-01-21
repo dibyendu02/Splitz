@@ -15,7 +15,6 @@ const TransactionCard = ({
 
 
   const handleDeleteButton = (id: string) => {
-    console.log("input id is " + id);
 
     
     setCalculation((prevElements) => {
@@ -28,7 +27,6 @@ const TransactionCard = ({
       return newCalculation;
     });
 
-    console.log(`removed transaction with id ${id}`);
   };
 
   const handleTextInput = (id: string, value: string) => {
@@ -100,7 +98,6 @@ const TransactionCard = ({
       <button        
         onClick={() => {
           handleDeleteButton(userTransactions[index].id);
-          console.log("clicked row " + userTransactions[index].id);
         }}
       >
         <svg
